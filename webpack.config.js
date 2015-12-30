@@ -23,7 +23,7 @@ module.exports = {
           'doTypeCheck': false
         },
         include: path.resolve('app'),
-        exclude: /node_modules/
+        exclude: [ /\.spec\.ts$/, /\.e2e\.ts$/, /node_modules/ ]
       },
       {
         test: /\.js$/,

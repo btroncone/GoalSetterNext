@@ -9,12 +9,14 @@ import {Page} from 'ionic-framework/ionic';
     </ion-title>
     </ion-navbar>
 
-    <ion-content class="page3">
-
+    <ion-content padding>
+        <h3>{{title}}</h3>
     </ion-content>
   `
 })
 export class Statistics {
+  public title = "Statistics";
+  
   constructor() {
 
   }
