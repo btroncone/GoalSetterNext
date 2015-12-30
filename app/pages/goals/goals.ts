@@ -5,16 +5,16 @@ import {Page} from 'ionic-framework/ionic';
   template: `  
     <ion-navbar *navbar>
     <ion-title>
-        Tab 3
+        Goals
     </ion-title>
     </ion-navbar>
 
-    <ion-content class="page3">
+    <ion-content class="page2">
 
     </ion-content>
-  `
+`,
 })
-export class Page3 {
+export class Goals {
   constructor() {
 
   }
