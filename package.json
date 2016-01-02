@@ -18,5 +18,9 @@
     "wallaby-webpack": "0.0.11"
   },
   "name": "goalsetternext",
-  "description": "GoalSetterNext: An Ionic project"
+  "description": "GoalSetterNext: An Ionic project",
+  "cordovaPlugins": [
+    "cordova-sqlite-storage"
+  ],
+  "cordovaPlatforms": []
 }
