@@ -1,5 +1,6 @@
-import {Page} from 'ionic-framework/ionic';
+import {Page, Modal} from 'ionic-framework/ionic';
 import {GoalService} from "../../services/goal-service";
+import {CreateGoalModal} from "./create-goal-modal";
 const moment = require('moment');
 
 @Page({
@@ -18,14 +19,16 @@ const moment = require('moment');
         </ion-title>  
     </ion-navbar>
     <ion-content>
+        <button full default (click)="addGoal()">Add Goal</button>
         <ion-list>
-        <ion-item-sliding *ngFor="#goal of goals">
-                <ion-item>
-                    
+            <ion-item-sliding>
+                <ion-item *ngFor="#goal of goals">
+                    <ion-checkbox dark checked="{{goal.complete}}">
+                        {{goal.goal}}
+                    </ion-checkbox>
                 </ion-item>
                 <ion-item-options>
-                    <button secondary (click)="completeGoal(goal)"><icon checkmark></icon> Complete</button>
-                    <button danger (click)="deleteGoal(goal)"><icon trash></icon> Delete</button>
+                    <button danger (click)="removeGoal(goal)"><icon trash></icon> Delete</button>
                 </ion-item-options>
             </ion-item-sliding>
         </ion-list>
@@ -36,10 +39,32 @@ export class Goals {
   private _dateOffset = 0;
   public goals = [];
   
-  constructor(private goalService : GoalService) {
-      this.goalService.retrieveGoalsByDate(this.goalDate).then(goals => {
-          this.goals = goals;
+  constructor(private goalService : GoalService, private modal: Modal) {
+      this.retrieveGoals();
+  }
+  
+  incrementDay(){
+      this._dateOffset += 1;
+      return this.retrieveGoals();
+  }
+  
+  decrementDay(){
+      this._dateOffset -= 1;
+      return this.retrieveGoals();
+  }
+  
+  updateGoalStatus(goal){
+      return this.goalService.updateGoalStatus({id: goal.id, status: goal.status}).then(res => {
+          return this.goals = res;
       });
+  }
+  
+  removeGoal(id: number){
+      return this.goalService.deleteGoal(id).then(res => console.log(res));
+  }
+  
+  addGoal(){
+      this.modal.open(CreateGoalModal)
   }
   
   get goalDate(){
@@ -50,19 +75,9 @@ export class Goals {
       return moment(this.goalDate).format("MMM Do YY");
   }
   
-  incrementDay(){
-      this._dateOffset += 1;
-  }
-  
-  decrementDay(){
-      this._dateOffset -= 1;
-  }
-  
-  completeGoal(goal){
-      
-  }
-  
-  removeGoal(goal){
-      
+  private retrieveGoals(){
+      return this.goalService.retrieveGoalsByDate(this.goalDate).then(res => {
+          return this.goals = res;
+      });
   }
 }

@@ -20,13 +20,22 @@ export class GoalService{
                 console.log("TABLE CREATED!");
             }, error => {
                 console.log("ERROR CREATING TABLE!");
-            });
-        //this.insertGoal({goal: "Hello world!", complete: 0, date: "01/02/2016"});
+            });      
     }
     
     insertGoal({goal, complete, date}){
         return this._goalDb.query("INSERT INTO Goals (goal, complete, date) VALUES (?, ?, ?)", 
             [goal, complete, moment(date).format('L')]).
+                then((data : SQLLiteResponse) => {
+                    return toArray(data.res.rows);
+                }, (error) => {
+                    console.log(error);
+                });
+    }
+    
+    updateGoalStatus({id, status}){
+        return this._goalDb.query("UPDATE Goals SET complete = ? WHERE id = ?", 
+            [id, status]).
                 then((data : SQLLiteResponse) => {
                     return toArray(data.res.rows);
                 }, (error) => {
