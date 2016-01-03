@@ -3,11 +3,13 @@
     "angular2": "2.0.0-beta.0",
     "es6-promise": "3.0.2",
     "es6-shim": "0.33.13",
+    "es7-reflect-metadata": "^1.2.0",
     "ionic-framework": "2.0.0-alpha.45",
+    "lodash-es": "^3.10.1",
+    "moment": "^2.10.6",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.0",
-    "zone.js": "0.5.10",
-    "es7-reflect-metadata": "^1.2.0"
+    "zone.js": "0.5.10"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^0.15.9",

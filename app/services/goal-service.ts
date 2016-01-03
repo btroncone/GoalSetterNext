@@ -1,5 +1,14 @@
 import {Storage, SqlStorage } from "ionic-framework/ionic";
-import {Goal, SQLLiteResponse} from "../interfaces/common";
+import {toArray} from "lodash";
+/* It doesn't appear momentjs is set up to import as ES6 module so we have to use 'require'*/
+const moment = require("moment");
+
+interface SQLLiteResponse{
+    res: {
+        rows: Array<Object>
+    },
+    txt: any
+}
 
 export class GoalService{
     private _goalDb : SqlStorage;
@@ -12,14 +21,14 @@ export class GoalService{
             }, error => {
                 console.log("ERROR CREATING TABLE!");
             });
+        //this.insertGoal({goal: "Hello world!", complete: 0, date: "01/02/2016"});
     }
     
-    insertGoal(goal : Goal){
+    insertGoal({goal, complete, date}){
         return this._goalDb.query("INSERT INTO Goals (goal, complete, date) VALUES (?, ?, ?)", 
-            [goal.goal, goal.complete, goal.date]).
+            [goal, complete, moment(date).format('L')]).
                 then((data : SQLLiteResponse) => {
-                    console.log(data);
-                    return data.res.rows;
+                    return toArray(data.res.rows);
                 }, (error) => {
                     console.log(error);
                 });
@@ -28,16 +37,16 @@ export class GoalService{
     deleteGoal(id: number){
         return this._goalDb.query(`DELETE From Goals WHERE id = ?`, [id]).
             then((data : SQLLiteResponse) => {
-                return data.res.rows;
+                return toArray(data.res.rows);
             }, (error) => {
                 //display error
             });
     }
     
-    retrieveGoalsByDate(date){
+    retrieveGoalsByDate(date: string){
         return this._goalDb.query(`SELECT * FROM Goals WHERE date = ?`, [date]).
             then((data : SQLLiteResponse) => {
-                return data.res.rows;
+                return toArray(data.res.rows);
             }, (error) => {
                 //display error
             });
