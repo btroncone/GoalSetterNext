@@ -1,11 +1,8 @@
 import { Storage, LocalStorage } from "ionic-framework/ionic";
+import { Goal } from '../models/goals';
 const moment = require("moment");
 
-export interface Goal {
-    description: string,
-    status: boolean,
-    date: string
-}
+
 
 export class GoalService{
     private _goalDb : LocalStorage;

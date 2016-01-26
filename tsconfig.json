@@ -11,9 +11,6 @@
     "inlineSourceMap": false,
     "inlineSources": false
   },
-  "files": [
-    "app/app.ts"
-  ],
   "exclude": [
     "node_modules"
   ],
