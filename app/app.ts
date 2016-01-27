@@ -3,6 +3,8 @@ import {Dashboard} from './pages/dashboard/dashboard';
 import {Goals} from './pages/goals/goals';
 import {Statistics} from './pages/statistics/statistics';
 import {GoalService} from './services/goal-service';
+import {provideStore} from '@ngrx/store';
+import {goals} from './reducers/goals';
 
 @App({
   template: `
@@ -13,14 +15,17 @@ import {GoalService} from './services/goal-service';
     </ion-tabs>
     <ion-overlay></ion-overlay>
 `,
- providers: [GoalService]
+ providers: [
+     GoalService, 
+     provideStore({goals})
+ ]
 })
 export class MyApp {
   public dashboard; 
   public goals;
   public statistics;
   
-  constructor(platform: Platform, goalService: GoalService) {
+  constructor(platform: Platform) {
     // this tells the tabs component which Pages
     // should be each tab's root Page
     this.dashboard = Dashboard;

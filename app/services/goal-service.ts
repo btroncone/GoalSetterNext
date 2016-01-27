@@ -1,5 +1,6 @@
 import { Storage, LocalStorage } from "ionic-framework/ionic";
 import { Goal } from '../models/goals';
+import { Observable } from 'rxjs';
 const moment = require("moment");
 
 
@@ -11,13 +12,11 @@ export class GoalService{
         this._goalDb = new Storage(LocalStorage);
     }
     
-    setGoals(date : string, goals : Goal[]){
-        return this._goalDb.set(date, JSON.stringify(goals));
+    setGoals({date, goals} : {date : any, goals: Goal[]}){
+        return Observable.fromPromise(this._goalDb.set(date, JSON.stringify(goals)));
     }
     
-    retrieveGoalsByDate(date: string){
-        return this._goalDb.get(date).then(goals => {
-          return goals ? JSON.parse(goals) : [];  
-        });       
+    retrieveGoalsByDate(date: any){
+        return Observable.fromPromise(this._goalDb.get(date));      
     }
 }
